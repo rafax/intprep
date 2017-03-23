@@ -9,9 +9,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
- * Created by gajduler on 3/22/17.
+ * Count the number of unique items in a large (larger than memory) list by sorting sublists,
+ * storing them in files and merging sorted arrays.
+ * Should run with -Xmx8m
  */
-public class ExternalSort implements Main.Solution {
+public class ExternalSort implements Solution {
 
     private static int dedup(Stream<String> reader) {
         Set<String> seen = Collections.newSetFromMap(new ConcurrentHashMap<>());

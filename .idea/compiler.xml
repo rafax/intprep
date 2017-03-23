@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="intprep" />
         <module name="nonmem" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="intprep" target="1.8" />
       <module name="nonmem" target="1.8" />
     </bytecodeTargetLevel>
   </component>

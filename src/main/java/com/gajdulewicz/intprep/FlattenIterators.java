@@ -9,9 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by gajduler on 3/22/17.
+ * Flatten an iterator of iterators, i.e. return all elements of subiterators contained in a parent iterator
+ * Do this without materializing all elements.
  */
-public class FlattenIterators implements Main.Solution {
+public class FlattenIterators implements Solution {
     @Override
     public void solve() {
         List<List<String>> input = new ArrayList<>();
@@ -19,10 +20,7 @@ public class FlattenIterators implements Main.Solution {
         input.add(Lists.newArrayList());
         input.add(Lists.newArrayList());
         input.add(Lists.newArrayList("c"));
-        input.add(Lists.newArrayList());
-        input.add(Lists.newArrayList());
         input.add(Lists.newArrayList("d", "e", "f"));
-        input.add(Lists.newArrayList());
         input.add(Lists.newArrayList());
         input.add(Lists.newArrayList());
         Iterator<String> flat = new Flattener<>(input.stream().map(List::iterator).iterator()).flatten();

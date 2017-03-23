@@ -6,17 +6,22 @@ import java.util.Map;
 
 public class Main {
 
-    public interface Solution {
-        void solve();
-    }
-
     private static final Map<String, Solution> solutions = ImmutableMap.of(
             "external-sort", new ExternalSort(),
             "flatten-iterators", new FlattenIterators()
     );
 
     public static void main(String[] args) {
-        solutions.get(args[0]).solve();
+        if (args.length < 1) {
+            System.out.println("Please provide a solution name");
+            return;
+        }
+        String solutionName = args[0];
+        if (!solutions.containsKey(solutionName)) {
+            System.out.println(String.format("Unknown solution name %s, use one of:g\n%s", solutionName, String.join("\n", solutions.keySet())));
+            return;
+        }
+        solutions.get(solutionName).solve();
     }
 }
 
