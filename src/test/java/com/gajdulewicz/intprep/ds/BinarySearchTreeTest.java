@@ -1,9 +1,12 @@
 package com.gajdulewicz.intprep.ds;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -28,7 +31,29 @@ public class BinarySearchTreeTest {
     }
 
     @Test
-    public void testDelete() {
+    public void testDeleteChildlessRoot() {
+        final BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        int root = 5;
+        tree.insert(root);
+        final boolean deleted = tree.delete(root);
+        assertThat(deleted).isTrue();
+        assertThat(tree.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void testDeleteRootOneChild() {
+        final BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        int root = 5, child = 6;
+        tree.insert(root);
+        tree.insert(child);
+        final boolean deleted = tree.delete(root);
+        assertThat(deleted).isTrue();
+        assertThat(tree.size()).isEqualTo(1);
+        assertThat(tree.levelOrder().get(0)).containsExactly(child);
+    }
+
+    @Test
+    public void testBulkDelete() {
         final BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         for (int i = 0; i < 10; i++) {
             tree.insert(i);
@@ -41,6 +66,31 @@ public class BinarySearchTreeTest {
             assertThat(tree.contains(i)).isTrue();
             assertThat(tree.delete(i)).isTrue();
             assertThat(tree.contains(i)).isFalse();
+        }
+    }
+
+    @Test
+    @Ignore
+    public void testDeleteRandomized() {
+        List<Integer> elems = Lists.newArrayList();
+        for (int i = 0; i < 1000; i++) {
+            elems.add(i);
+        }
+        for (int iteration = 0; iteration < 10; iteration++) {
+            Collections.shuffle(elems);
+            final BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+            for (Integer elem : elems) {
+                tree.insert(elem);
+                assertThat(tree.contains(elem)).isTrue();
+            }
+            for (int i = 2000; i < 2010; i++) {
+                assertThat(tree.delete(i)).isFalse();
+            }
+            for (Integer i : elems) {
+                assertThat(tree.contains(i)).isTrue();
+                assertThat(tree.delete(i)).isTrue();
+                assertThat(tree.contains(i)).isFalse();
+            }
         }
     }
 

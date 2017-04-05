@@ -12,28 +12,37 @@ import java.util.stream.Collectors;
  */
 public class BinarySearchTree<T extends Comparable<T>> {
     private BinaryNode<T> root;
+    private int size = 0;
 
-    public void insert(T value) {
+    public boolean insert(T value) {
         final BinaryNode<T> node = new BinaryNode<>(value);
+        final boolean inserted = insert(node);
+        if (inserted) {
+            size++;
+        }
+        return inserted;
+    }
+
+    private boolean insert(BinaryNode<T> node) {
         if (root == null) {
             root = node;
-            return;
+            return true;
         }
         BinaryNode<T> curr = root;
         while (true) {
-            if (value.compareTo(curr.getValue()) == 0) {
-                return;
+            if (node.getValue().compareTo(curr.getValue()) == 0) {
+                return false;
             }
-            if (value.compareTo(curr.getValue()) < 0) {
+            if (node.getValue().compareTo(curr.getValue()) < 0) {
                 if (!curr.getLeft().isPresent()) {
                     curr.setLeft(node);
-                    return;
+                    return true;
                 }
                 curr = curr.getLeft().get();
             } else {
                 if (!curr.getRight().isPresent()) {
                     curr.setRight(node);
-                    return;
+                    return true;
                 }
                 curr = curr.getRight().get();
             }
@@ -45,16 +54,55 @@ public class BinarySearchTree<T extends Comparable<T>> {
         if (nodeWithParent == null) {
             return false;
         }
-        if (nodeWithParent.parent == null) {
-            root = null;
+        if (nodeWithParent.node.childCount() == 0) {
+            if (nodeWithParent.parent == null) {
+                root = null;
+            } else {
+                if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
+                    nodeWithParent.parent.setLeft(null);
+                } else {
+                    nodeWithParent.parent.setRight(null);
+                }
+            }
+            size--;
             return true;
         }
-        if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
-            nodeWithParent.parent.setLeft(null);
-        } else {
-            nodeWithParent.parent.setRight(null);
+        if (nodeWithParent.node.childCount() == 1) {
+            final BinaryNode<T> child = nodeWithParent.node.getLeft()
+                    .map(Optional::of).orElse(nodeWithParent.node.getRight()).get();
+            if (nodeWithParent.parent == null) {
+                root = child;
+            } else {
+                if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
+                    nodeWithParent.parent.setLeft(child);
+                } else {
+                    nodeWithParent.parent.setRight(child);
+                }
+            }
+            size--;
+            return true;
         }
+        // 2 children - replace node with leftmost child of right tree
+        final BinaryNode<T> swapWith = leftmostRightChild(nodeWithParent.node);
+        if (nodeWithParent.parent == null) {
+            root = swapWith;
+        } else {
+            if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
+                nodeWithParent.parent.setLeft(swapWith);
+            } else {
+                nodeWithParent.parent.setRight(swapWith);
+            }
+        }
+        size--;
         return true;
+    }
+
+    private BinaryNode<T> leftmostRightChild(BinaryNode<T> node) {
+        BinaryNode<T> curr = node.getRight().get();
+        while (curr.getLeft().isPresent()) {
+            curr = curr.getLeft().get();
+        }
+        return curr;
     }
 
     public List<List<T>> levelOrder() {
@@ -104,6 +152,10 @@ public class BinarySearchTree<T extends Comparable<T>> {
                 curr = curr.getRight().get();
             }
         }
+    }
+
+    public int size() {
+        return size;
     }
 
     private static class NodeWithParent<T extends Comparable<T>> {

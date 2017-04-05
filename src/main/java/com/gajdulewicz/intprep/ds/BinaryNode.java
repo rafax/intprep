@@ -33,4 +33,9 @@ public class BinaryNode<T extends Comparable<T>> {
     public T getValue() {
         return value;
     }
+
+    public int childCount() {
+        return (left != null ? 1 : 0) +
+                (right != null ? 1 : 0);
+    }
 }
