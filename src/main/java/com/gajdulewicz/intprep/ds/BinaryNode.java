@@ -7,7 +7,8 @@ import java.util.Optional;
  */
 public class BinaryNode<T extends Comparable<T>> {
 
-    private final T value;
+
+    private T value;
     private BinaryNode<T> left, right;
 
     public BinaryNode(T value) {
@@ -32,6 +33,10 @@ public class BinaryNode<T extends Comparable<T>> {
 
     public T getValue() {
         return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
     }
 
     public int childCount() {

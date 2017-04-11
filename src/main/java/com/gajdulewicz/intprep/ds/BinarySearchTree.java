@@ -1,15 +1,17 @@
 package com.gajdulewicz.intprep.ds;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Created by gajduler on 4/4/17.
- */
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+
 public class BinarySearchTree<T extends Comparable<T>> {
     private BinaryNode<T> root;
     private int size = 0;
@@ -50,54 +52,89 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public boolean delete(T value) {
-        final NodeWithParent<T> nodeWithParent = find(value);
+        checkNotNull(value);
+        final boolean deleted = deleteValue(value);
+        if (deleted) {
+            size--;
+        }
+        return deleted;
+    }
+
+    private boolean deleteValue(T value) {
+        if (root == null) {
+            return false;
+        }
+        if (value.compareTo(root.getValue()) == 0) {
+            if (root.childCount() == 0) {
+                root = null;
+                return true;
+            }
+            if (root.childCount() == 1) {
+                if (root.getLeft().isPresent()) {
+                    root = root.getLeft().get();
+                } else {
+                    root = root.getRight().get();
+                }
+                return true;
+            }
+            if (root.childCount() == 2) {
+                final T lrc = leftmostRightChild(root).getValue();
+                root.setValue(lrc);
+                return delete(lrc, root.getRight().get(), root);
+            }
+        }
+        if (value.compareTo(root.getValue()) < 0) {
+            if (root.getLeft().isPresent()) {
+                return delete(value, root.getLeft().get(), root);
+            }
+            return false;
+        } else {
+            if (root.getRight().isPresent()) {
+                return delete(value, root.getRight().get(), root);
+            }
+            return false;
+        }
+    }
+
+    /*
+    * Deletes a non-root node
+     */
+    private static <T extends Comparable<T>> boolean delete(T value, BinaryNode<T> searchRoot, BinaryNode<T> rootParent) {
+        NodeWithParent<T> nodeWithParent = find(value, searchRoot, rootParent);
         if (nodeWithParent == null) {
             return false;
         }
+        if (nodeWithParent.node == searchRoot) {
+            nodeWithParent = new NodeWithParent<T>(searchRoot, rootParent);
+        }
         if (nodeWithParent.node.childCount() == 0) {
-            if (nodeWithParent.parent == null) {
-                root = null;
+            if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
+                nodeWithParent.parent.setLeft(null);
             } else {
-                if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
-                    nodeWithParent.parent.setLeft(null);
-                } else {
-                    nodeWithParent.parent.setRight(null);
-                }
+                nodeWithParent.parent.setRight(null);
             }
-            size--;
             return true;
         }
         if (nodeWithParent.node.childCount() == 1) {
             final BinaryNode<T> child = nodeWithParent.node.getLeft()
                     .map(Optional::of).orElse(nodeWithParent.node.getRight()).get();
-            if (nodeWithParent.parent == null) {
-                root = child;
+            if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
+                nodeWithParent.parent.setLeft(child);
             } else {
-                if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
-                    nodeWithParent.parent.setLeft(child);
-                } else {
-                    nodeWithParent.parent.setRight(child);
-                }
+                nodeWithParent.parent.setRight(child);
             }
-            size--;
             return true;
         }
+
         // 2 children - replace node with leftmost child of right tree
         final BinaryNode<T> swapWith = leftmostRightChild(nodeWithParent.node);
-        if (nodeWithParent.parent == null) {
-            root = swapWith;
-        } else {
-            if (value.compareTo(nodeWithParent.parent.getValue()) < 0) {
-                nodeWithParent.parent.setLeft(swapWith);
-            } else {
-                nodeWithParent.parent.setRight(swapWith);
-            }
-        }
-        size--;
-        return true;
+        nodeWithParent.node.setValue(swapWith.getValue());
+        return delete(swapWith.getValue(), nodeWithParent.node.getRight().get(), nodeWithParent.node);
     }
 
-    private BinaryNode<T> leftmostRightChild(BinaryNode<T> node) {
+
+    private static <T extends Comparable<T>> BinaryNode<T> leftmostRightChild(BinaryNode<T> node) {
+        checkArgument(node.getRight().isPresent());
         BinaryNode<T> curr = node.getRight().get();
         while (curr.getLeft().isPresent()) {
             curr = curr.getLeft().get();
@@ -106,6 +143,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public List<List<T>> levelOrder() {
+        if (root == null) {
+            return Lists.newArrayList();
+        }
         List<List<BinaryNode<T>>> levels = Lists.newArrayList();
         levels.add(Lists.newArrayList(root));
         descend(root.getLeft(), levels, 1);
@@ -126,14 +166,14 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     public boolean contains(T value) {
-        return find(value) != null;
+        return find(value, root, null) != null;
     }
 
-    private NodeWithParent<T> find(T value) {
-        if (root == null) {
+    private static <T extends Comparable<T>> NodeWithParent<T> find(T value, BinaryNode<T> searchRoot, BinaryNode<T> rootParent) {
+        if (searchRoot == null) {
             return null;
         }
-        BinaryNode<T> curr = this.root, prev = null;
+        BinaryNode<T> curr = searchRoot, prev = rootParent;
         while (true) {
             if (curr.getValue().compareTo(value) == 0) {
                 return new NodeWithParent<>(curr, prev);
@@ -142,7 +182,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
                 if (!curr.getLeft().isPresent()) {
                     return null;
                 }
+                prev = curr;
                 curr = curr.getLeft().get();
+                continue;
             }
             if (value.compareTo(curr.getValue()) > 0) {
                 if (!curr.getRight().isPresent()) {
@@ -159,12 +201,13 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     private static class NodeWithParent<T extends Comparable<T>> {
-        private final BinaryNode<T> node, parent;
+        final BinaryNode<T> node, parent;
 
         private NodeWithParent(BinaryNode<T> node, BinaryNode<T> parent) {
             this.node = node;
             this.parent = parent;
         }
+
     }
 
     @Override
