@@ -137,7 +137,7 @@ public class ExternalSort implements Solution {
 
     @Override
     public void solve() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream("/all.txt")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream("/externalsort/all.txt")));
         if (System.getenv("INMEM") != null) {
             int count = dedup(reader.lines());
             System.out.println(count);

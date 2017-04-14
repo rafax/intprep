@@ -26,9 +26,6 @@ public class BinarySearchTreePropertyTest {
             tree.insert(elem);
             assertThat(tree.contains(elem)).isTrue();
         }
-        for (int i = 2000; i < 2010; i++) {
-            assertThat(tree.delete(i)).isFalse();
-        }
         for (Integer i : Sets.newHashSet(elems)) {
             assertThat(tree.contains(i)).isTrue();
             assertThat(tree.delete(i)).isTrue();
