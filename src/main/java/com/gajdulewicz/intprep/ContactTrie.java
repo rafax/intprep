@@ -2,9 +2,6 @@ package com.gajdulewicz.intprep;
 
 import java.util.*;
 
-/**
- * Created by gajduler on 7/20/17.
- */
 public class ContactTrie {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -26,7 +23,7 @@ public class ContactTrie {
 
         private final Map<Character, Node> children = new HashMap<>();
 
-        public Trie() {
+        Trie() {
             for (char l = 'a'; l <= 'z'; l++) {
                 children.put(l, new Node(l));
             }
@@ -85,9 +82,6 @@ public class ContactTrie {
     public static class PrefixMap implements PrefixCounter {
 
         private Map<String, Integer> prefixCount = new HashMap<>();
-
-        public PrefixMap() {
-        }
 
         @Override
         public void put(String in) {

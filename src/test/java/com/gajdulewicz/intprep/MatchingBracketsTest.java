@@ -4,7 +4,6 @@ import com.google.common.truth.Truth;
 import org.junit.Test;
 
 import static com.gajdulewicz.intprep.MatchingBrackets.isBalanced;
-import static org.junit.Assert.*;
 
 /**
  * Created by gajduler on 7/21/17.
