@@ -37,29 +37,13 @@ public class PathBfs {
 
     public static List<Integer> paths(GraphTraversal.Node<Integer> from, List<GraphTraversal.Node<Integer>> graph) {
         List<Integer> res = new ArrayList<>();
-        for (GraphTraversal.Node<Integer> to : graph) {
-            if (!Objects.equals(from.elem, to.elem)) {
-                if (to.hasAdjacent()) {
-                    res.add(shortestPathLength(from, to).orElse(-1));
-                } else {
-                    res.add(-1);
-                }
+        Map<Integer, Integer> paths = new HashMap<>();
+        from.bfsStream().forEach(np -> paths.put(np.node.elem, np.path.size()));
+        for (GraphTraversal.Node<Integer> n : graph) {
+            if (!Objects.equals(n.elem, from.elem)) {
+                res.add(Optional.ofNullable(paths.get(n.elem)).map(e -> e * 6).orElse(-1));
             }
         }
         return res;
-
     }
-
-    private static Optional<Integer> shortestPathLength(GraphTraversal.Node<Integer> from, GraphTraversal.Node<Integer> to) {
-        final Iterator<GraphTraversal.Node.NodePath<Integer>> bfs = from.bfs();
-        while (bfs.hasNext()) {
-            final GraphTraversal.Node.NodePath<Integer> np = bfs.next();
-            if (Objects.equals(np.node.elem, to.elem)) {
-                return Optional.of(np.path.size() * 6);
-            }
-        }
-        return Optional.empty();
-    }
-
-
 }

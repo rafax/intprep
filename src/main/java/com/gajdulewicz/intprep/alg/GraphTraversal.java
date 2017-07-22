@@ -24,9 +24,9 @@ public class GraphTraversal {
 
         public static class NodePath<T> {
             public final Node<T> node;
-            public final LinkedList<T> path;
+            public final ImmutableList<T> path;
 
-            public NodePath(Node<T> node, LinkedList<T> path) {
+            public NodePath(Node<T> node, ImmutableList<T> path) {
                 this.node = node;
                 this.path = path;
             }
@@ -44,10 +44,8 @@ public class GraphTraversal {
         public Iterator<NodePath<T>> bfs() {
             HashSet<T> visited = new HashSet<>();
             LinkedList<NodePath<T>> toVisit = new LinkedList<>();
-            toVisit.add(new NodePath<>(this, new LinkedList<>()));
+            toVisit.add(new NodePath<>(this, ImmutableList.of()));
             return new Iterator<NodePath<T>>() {
-
-
                 NodePath<T> next = null;
 
                 @Override
@@ -59,9 +57,7 @@ public class GraphTraversal {
                         }
                         visited.add(n.node.elem);
                         for (Node<T> a : n.node.adjacent) {
-                            final LinkedList<T> newPath = new LinkedList<>(n.path);
-                            newPath.add(a.elem);
-                            toVisit.add(new NodePath<>(a, newPath));
+                            toVisit.add(new NodePath<T>(a, ImmutableList.copyOf(Iterables.concat(n.path, Lists.newArrayList(a.elem)))));
                         }
                         next = n;
                         return true;

@@ -35,4 +35,15 @@ public class PathBfsTest {
         }
     }
 
+    @Test
+    public void sample5() throws Exception {
+        final InputStream source = this.getClass().getResourceAsStream("/bfs/case5.txt");
+        final Scanner sol = new Scanner(this.getClass().getResourceAsStream("/bfs/case5_sol.txt"));
+        final List<List<Integer>> paths = PathBfs.findPaths(source);
+        int i = 0;
+        while (sol.hasNextLine()) {
+            Truth.assertThat(Arrays.stream(sol.nextLine().split(" ")).map(Integer::valueOf).collect(Collectors.toList())).isEqualTo(paths.get(i++));
+        }
+    }
+
 }
