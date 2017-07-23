@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 @RunWith(JUnitQuickcheck.class)
 public class BinarySearchTreePropertyTest {
 
-    @Property(trials = 250)
+    @Property(trials = 10)
     public void testDeleteRandomized(List<Integer> elems) {
         final BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         for (Integer elem : elems) {
