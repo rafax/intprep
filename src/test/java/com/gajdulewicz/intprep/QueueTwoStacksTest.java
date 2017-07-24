@@ -3,7 +3,11 @@ package com.gajdulewicz.intprep;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Scanner;
+
+import static com.gajdulewicz.intprep.QueueTwoStacks.process;
 
 /**
  * Created by gajduler on 7/21/17.
@@ -22,20 +26,14 @@ public class QueueTwoStacksTest {
     }
 
     @Test
-    public void shrunken() throws Exception {
-        QueueTwoStacks.MyQueue<Integer> q = new QueueTwoStacks.MyQueue<>();
-        q.enqueue(2950);
-        q.enqueue(0);
-        q.enqueue(0);
-        q.enqueue(0);
-        Truth.assertThat(q.peek()).isEqualTo(2950);
-        Truth.assertThat(q.dequeue()).isEqualTo(2950);
-        Truth.assertThat(q.peek()).isEqualTo(0);
-        Truth.assertThat(q.dequeue()).isEqualTo(0);
-        Truth.assertThat(q.peek()).isEqualTo(0);
-        Truth.assertThat(q.dequeue()).isEqualTo(0);
-        Truth.assertThat(q.peek()).isEqualTo(0);
-        Truth.assertThat(q.dequeue()).isEqualTo(0);
+    public void testCase2() throws Exception {
+        final InputStream input = getClass().getResourceAsStream("/qts/c2.txt");
+        final Scanner scanner = new Scanner(getClass().getResourceAsStream("/qts/c2_sol.txt"));
+        final List<Integer> processed = process(input);
+        int i = 0;
+        while (scanner.hasNextLine()) {
+            Truth.assertThat(scanner.nextLine()).isEqualTo(processed.get(i++).toString());
+        }
     }
 
 }
