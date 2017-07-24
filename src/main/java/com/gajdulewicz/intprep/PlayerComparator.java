@@ -22,7 +22,8 @@ public class PlayerComparator implements Comparator<PlayerComparator.Player> {
       this.score = score;
     }
   }
+
   public static void main(String[] args) {
-    Arrays.sort(new Player[]{},new PlayerComparator());
+    Arrays.sort(new Player[] {}, new PlayerComparator());
   }
 }

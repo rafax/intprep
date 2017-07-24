@@ -7,12 +7,11 @@ import static com.gajdulewicz.intprep.BubbleSort.bubbleSort;
 
 public class BubbleSortTest {
 
-    @Test
-    public void testBubbleSort() {
-        int[] arr = new int[]{3, 2, 1};
-        final int swaps = bubbleSort(arr);
-        Truth.assertThat(arr).asList().containsExactly(1, 2, 3);
-        Truth.assertThat(swaps).isEqualTo(3);
-    }
-
+  @Test
+  public void testBubbleSort() {
+    int[] arr = new int[] {3, 2, 1};
+    final int swaps = bubbleSort(arr);
+    Truth.assertThat(arr).asList().containsExactly(1, 2, 3);
+    Truth.assertThat(swaps).isEqualTo(3);
+  }
 }

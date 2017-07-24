@@ -7,9 +7,8 @@ import static com.gajdulewicz.intprep.IsPrime.isPrimeFast;
 
 public class IsPrimeTest {
 
-    @Test
-    public void isPrimeTest(){
-        Truth.assertThat(isPrimeFast(Integer.MAX_VALUE)).isTrue();
-    }
-
+  @Test
+  public void isPrimeTest() {
+    Truth.assertThat(isPrimeFast(Integer.MAX_VALUE)).isTrue();
+  }
 }
