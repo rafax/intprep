@@ -1,0 +1,70 @@
+package com.gajdulewicz.intprep.ctci;
+
+import com.gajdulewicz.intprep.ds.BinaryNode;
+import com.google.common.graph.Graph;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
+public class TreesAndGraphs {
+  //4.1
+  public static boolean isBalanced(BinaryNode<Integer> root) {
+    if (root == null) {
+      return true;
+    }
+    final Integer lh = root.getLeft().map(TreesAndGraphs::height).orElse(0);
+    final Integer rh = root.getRight().map(TreesAndGraphs::height).orElse(0);
+    if (Math.abs(lh - rh) > 1) {
+      return false;
+    }
+    return root.getLeft().map(TreesAndGraphs::isBalanced).orElse(true)
+        && root.getRight().map(TreesAndGraphs::isBalanced).orElse(true);
+  }
+
+  private static int height(BinaryNode<Integer> node) {
+    if (node.childCount() == 0) {
+      return 1;
+    }
+    final Integer heightL = node.getLeft().map(TreesAndGraphs::height).orElse(0);
+    final Integer heightR = node.getRight().map(TreesAndGraphs::height).orElse(0);
+    return Math.max(heightL, heightR) + 1;
+  }
+  //4.2
+  public static boolean hasPath(Graph<Integer> g, int from, int to) {
+    Set<Integer> visited = new HashSet<>();
+    Queue<Integer> toVisit = new LinkedList<>();
+    toVisit.add(from);
+    while (!toVisit.isEmpty()) {
+      int curr = toVisit.poll();
+      if (visited.contains(curr)) {
+        continue;
+      }
+      visited.add(curr);
+      if (g.successors(curr).contains(to)) {
+        return true;
+      } else {
+        toVisit.addAll(g.successors(curr));
+      }
+    }
+    return false;
+  }
+  //4.3
+  public static BinaryNode<Integer> buildBST(int[] in) {
+    return buildMinBst(in, 0, in.length - 1);
+  }
+
+  private static BinaryNode<Integer> buildMinBst(int[] in, int start, int end) {
+    if (start < 0 || end >= in.length || end < start) {
+      return null;
+    }
+    int mid = (start + end) / 2;
+    final BinaryNode<Integer> root = new BinaryNode<>(in[mid]);
+    if (start != end) {
+      root.setLeft(buildMinBst(in, start, mid - 1));
+      root.setRight(buildMinBst(in, mid + 1, end));
+    }
+    return root;
+  }
+}

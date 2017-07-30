@@ -22,16 +22,6 @@ public class GraphTraversal {
       adjacent.add(n);
     }
 
-    public static class NodePath<T> {
-      public final Node<T> node;
-      public final ImmutableList<T> path;
-
-      public NodePath(Node<T> node, ImmutableList<T> path) {
-        this.node = node;
-        this.path = path;
-      }
-    }
-
     public boolean hasAdjacent() {
       return !adjacent.isEmpty();
     }
@@ -58,7 +48,7 @@ public class GraphTraversal {
             visited.add(n.node.elem);
             for (Node<T> a : n.node.adjacent) {
               toVisit.add(
-                  new NodePath<T>(
+                  new NodePath<>(
                       a,
                       ImmutableList.copyOf(Iterables.concat(n.path, Lists.newArrayList(a.elem)))));
             }
@@ -73,6 +63,16 @@ public class GraphTraversal {
           return next;
         }
       };
+    }
+
+    public static class NodePath<T> {
+      public final Node<T> node;
+      public final ImmutableList<T> path;
+
+      public NodePath(Node<T> node, ImmutableList<T> path) {
+        this.node = node;
+        this.path = path;
+      }
     }
   }
 }
