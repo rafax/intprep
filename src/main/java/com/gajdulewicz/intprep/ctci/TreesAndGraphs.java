@@ -84,7 +84,7 @@ public class TreesAndGraphs {
       levels.add(Lists.newArrayList());
     }
     levels.get(level).add(node.getValue());
-    node.getLeft().ifPresent(n -> descend(n, levels, 1));
-    node.getRight().ifPresent(n -> descend(n, levels, 1));
+    node.getLeft().ifPresent(n -> descend(n, levels, level + 1));
+    node.getRight().ifPresent(n -> descend(n, levels, level + 1));
   }
 }
