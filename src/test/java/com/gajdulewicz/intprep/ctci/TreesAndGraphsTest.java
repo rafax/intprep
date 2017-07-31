@@ -124,4 +124,13 @@ public class TreesAndGraphsTest {
             Lists.newArrayList(
                 Lists.newArrayList(4), Lists.newArrayList(2, 6), Lists.newArrayList(1, 3, 5, 7)));
   }
+
+  @Test
+  public void levelOrderTest() {
+    final BinaryNode<Integer> node = buildBST(new int[] {1, 2, 3, 4, 5, 6, 7});
+    Truth.assertThat(levelOrder(node))
+        .isEqualTo(
+            Lists.newArrayList(
+                Lists.newArrayList(4), Lists.newArrayList(2, 6), Lists.newArrayList(1, 3, 5, 7)));
+  }
 }

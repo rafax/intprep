@@ -1,12 +1,10 @@
 package com.gajdulewicz.intprep.ctci;
 
 import com.gajdulewicz.intprep.ds.BinaryNode;
+import com.google.common.collect.Lists;
 import com.google.common.graph.Graph;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public class TreesAndGraphs {
   //4.1
@@ -66,5 +64,27 @@ public class TreesAndGraphs {
       root.setRight(buildMinBst(in, mid + 1, end));
     }
     return root;
+  }
+
+  //4.4
+  public static List<List<Integer>> levelOrder(BinaryNode<Integer> node) {
+    final ArrayList<List<Integer>> levels = Lists.newArrayList();
+    levels.add(Lists.newArrayList(node.getValue()));
+    node.getLeft().ifPresent(n -> descend(n, levels, 1));
+    node.getRight().ifPresent(n -> descend(n, levels, 1));
+    return levels;
+  }
+
+  private static void descend(
+      BinaryNode<Integer> node, ArrayList<List<Integer>> levels, int level) {
+    if (node == null) {
+      return;
+    }
+    if (levels.size() <= level) {
+      levels.add(Lists.newArrayList());
+    }
+    levels.get(level).add(node.getValue());
+    node.getLeft().ifPresent(n -> descend(n, levels, 1));
+    node.getRight().ifPresent(n -> descend(n, levels, 1));
   }
 }
