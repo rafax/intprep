@@ -87,4 +87,21 @@ public class TreesAndGraphs {
     node.getLeft().ifPresent(n -> descend(n, levels, level + 1));
     node.getRight().ifPresent(n -> descend(n, levels, level + 1));
   }
+
+  //4.5
+  public static boolean isBst(BinaryNode<Integer> node) {
+    return isBstHelper(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
+  }
+
+  private static boolean isBstHelper(BinaryNode<Integer> n, int min, int max) {
+    if (n == null) {
+      return true;
+    }
+    int v = n.getValue();
+    if (v >= max || v <= min) {
+      return false;
+    }
+    return n.getLeft().map(nd -> isBstHelper(nd, min, v)).orElse(true)
+        && n.getRight().map(nd -> isBstHelper(nd, v, max)).orElse(true);
+  }
 }

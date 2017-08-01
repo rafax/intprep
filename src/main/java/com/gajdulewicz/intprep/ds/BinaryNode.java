@@ -66,4 +66,13 @@ public class BinaryNode<T extends Comparable<T>> {
     descend(node.get().getLeft(), levels, level + 1);
     descend(node.get().getRight(), levels, level + 1);
   }
+
+  @Override
+  public String toString() {
+    return "BinaryNode{" +
+            "value=" + value +
+            ", left=" + left +
+            ", right=" + right +
+            '}';
+  }
 }

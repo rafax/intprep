@@ -133,4 +133,58 @@ public class TreesAndGraphsTest {
             Lists.newArrayList(
                 Lists.newArrayList(4), Lists.newArrayList(2, 6), Lists.newArrayList(1, 3, 5, 7)));
   }
+
+  @Test
+  public void isBstTest() throws Exception {
+    final BinaryNode<Integer> root = new BinaryNode<>(3);
+    final BinaryNode<Integer> l = new BinaryNode<>(2);
+    final BinaryNode<Integer> ll = new BinaryNode<>(1);
+    final BinaryNode<Integer> lr = new BinaryNode<>(4);
+    final BinaryNode<Integer> r = new BinaryNode<>(5);
+    final BinaryNode<Integer> rl = new BinaryNode<>(0);
+    final BinaryNode<Integer> rr = new BinaryNode<>(7);
+    root.setLeft(l);
+    l.setLeft(ll);
+    l.setRight(lr);
+    root.setRight(r);
+    r.setRight(rr);
+    r.setLeft(rl);
+    Truth.assertThat(isBst(root)).isFalse();
+  }
+
+  @Test
+  public void isBstRightTest() throws Exception {
+    final BinaryNode<Integer> root = new BinaryNode<>(4);
+    final BinaryNode<Integer> l = new BinaryNode<>(2);
+    final BinaryNode<Integer> ll = new BinaryNode<>(1);
+    final BinaryNode<Integer> lr = new BinaryNode<>(3);
+    final BinaryNode<Integer> r = new BinaryNode<>(6);
+    final BinaryNode<Integer> rl = new BinaryNode<>(5);
+    final BinaryNode<Integer> rr = new BinaryNode<>(1);
+    root.setLeft(l);
+    l.setLeft(ll);
+    l.setRight(lr);
+    root.setRight(r);
+    r.setRight(rr);
+    r.setLeft(rl);
+    Truth.assertThat(isBst(root)).isFalse();
+  }
+
+  @Test
+  public void isBstPositiveTest() throws Exception {
+    final BinaryNode<Integer> root = new BinaryNode<>(4);
+    final BinaryNode<Integer> l = new BinaryNode<>(2);
+    final BinaryNode<Integer> ll = new BinaryNode<>(1);
+    final BinaryNode<Integer> lr = new BinaryNode<>(3);
+    final BinaryNode<Integer> r = new BinaryNode<>(6);
+    final BinaryNode<Integer> rl = new BinaryNode<>(5);
+    final BinaryNode<Integer> rr = new BinaryNode<>(7);
+    root.setLeft(l);
+    l.setLeft(ll);
+    l.setRight(lr);
+    root.setRight(r);
+    r.setRight(rr);
+    r.setLeft(rl);
+    Truth.assertThat(isBst(root)).isTrue();
+  }
 }
