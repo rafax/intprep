@@ -1,10 +1,9 @@
 package com.gajdulewicz.intprep.ctci;
 
+import com.gajdulewicz.intprep.Case;
 import com.google.common.collect.Lists;
 import com.google.common.truth.Truth;
 import org.junit.Test;
-
-import java.util.function.Supplier;
 
 import static com.gajdulewicz.intprep.ctci.ArraysAndStrings.allUnique;
 import static com.gajdulewicz.intprep.ctci.ArraysAndStrings.compress;
@@ -45,22 +44,4 @@ public class ArraysAndStringsTest {
         .forEach(c -> Truth.assertThat(compress(c.in())).isEqualTo(c.out()));
   }
 
-  static class Case<TIn, TOut> {
-    private final Supplier<TIn> inSupplier;
-    private final Supplier<TOut> outSupplier;
-
-    public TIn in() {
-      return inSupplier.get();
-    }
-
-    public TOut out() {
-      return outSupplier.get();
-    }
-
-    Case(Supplier<TIn> inSupplier, Supplier<TOut> outSupplier) {
-
-      this.inSupplier = inSupplier;
-      this.outSupplier = outSupplier;
-    }
-  }
 }
