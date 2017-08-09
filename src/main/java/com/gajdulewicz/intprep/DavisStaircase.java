@@ -16,13 +16,13 @@ public class DavisStaircase {
     }
   }
 
-  static int ways(int n, Map<Integer, Integer> memo) {
+  public static long ways(int n, Map<Integer, Long> memo) {
     if (n < 0) {
       return 0;
     }
     if (n == 0 || n == 1) return 1;
     if (!memo.containsKey(n)) {
-      int w = ways(n - 1, memo) + ways(n - 2, memo) + ways(n - 3, memo);
+      long w = ways(n - 1, memo) + ways(n - 2, memo) + ways(n - 3, memo);
       memo.put(n, w);
     }
     return memo.get(n);

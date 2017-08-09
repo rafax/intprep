@@ -1,17 +1,10 @@
 package com.gajdulewicz.intprep;
 
-import com.google.common.base.Charsets;
-import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import com.google.common.io.CharStreams;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class DecompressStringTest {
 
