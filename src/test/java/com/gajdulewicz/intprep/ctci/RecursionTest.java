@@ -1,9 +1,12 @@
 package com.gajdulewicz.intprep.ctci;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
 import static com.gajdulewicz.intprep.ctci.Recursion.gridWays;
+import static com.gajdulewicz.intprep.ctci.Recursion.subsets;
 import static com.gajdulewicz.intprep.ctci.Recursion.ways;
 
 public class RecursionTest {
@@ -24,5 +27,19 @@ public class RecursionTest {
     Truth.assertThat(
             gridWays(new boolean[][] {{true, true, true}, {true, true, true}, {true, true, true}}))
         .isEqualTo(6);
+  }
+
+  @Test
+  public void subsetsTest() {
+    Truth.assertThat(subsets(Lists.newArrayList("a", "b", "c")))
+        .containsExactly(
+            Sets.newHashSet(),
+            Sets.newHashSet("a"),
+            Sets.newHashSet("b"),
+            Sets.newHashSet("c"),
+            Sets.newHashSet("a", "b"),
+            Sets.newHashSet("a", "c"),
+            Sets.newHashSet("b", "c"),
+            Sets.newHashSet("a", "b", "c"));
   }
 }

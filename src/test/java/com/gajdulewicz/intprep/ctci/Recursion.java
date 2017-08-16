@@ -1,6 +1,11 @@
 package com.gajdulewicz.intprep.ctci;
 
-import java.util.Arrays;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Recursion {
 
@@ -50,5 +55,19 @@ public class Recursion {
     return row < 0 || row >= grid.length || col < 0 || col >= grid[0].length;
   }
 
-
+  // 9.4
+  static <T> List<Set<T>> subsets(List<T> in) {
+    List<Set<T>> res = Lists.newArrayList();
+    for (long i = 0; i < Math.pow(2, in.size()); i++) {
+      final String include = Strings.padStart(Long.toBinaryString(i), in.size(), '0');
+      Set<T> x = new HashSet<>();
+      for (int j = 0; j < include.length(); j++) {
+        if (include.charAt(j) == '1') {
+          x.add(in.get(j));
+        }
+      }
+      res.add(x);
+    }
+    return res;
+  }
 }
