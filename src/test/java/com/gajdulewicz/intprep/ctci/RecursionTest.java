@@ -5,9 +5,7 @@ import com.google.common.collect.Sets;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
-import static com.gajdulewicz.intprep.ctci.Recursion.gridWays;
-import static com.gajdulewicz.intprep.ctci.Recursion.subsets;
-import static com.gajdulewicz.intprep.ctci.Recursion.ways;
+import static com.gajdulewicz.intprep.ctci.Recursion.*;
 
 public class RecursionTest {
 
@@ -19,14 +17,14 @@ public class RecursionTest {
 
   @Test
   public void gridWaysTest() {
-    Truth.assertThat(gridWays(new boolean[][] {{true, true}, {true, true}})).isEqualTo(2);
+    Truth.assertThat(gridWays(new boolean[][]{{true, true}, {true, true}})).isEqualTo(2);
     Truth.assertThat(
-            gridWays(
-                new boolean[][] {{true, true, true}, {false, false, true}, {true, true, true}}))
-        .isEqualTo(1);
+      gridWays(
+        new boolean[][]{{true, true, true}, {false, false, true}, {true, true, true}}))
+      .isEqualTo(1);
     Truth.assertThat(
-            gridWays(new boolean[][] {{true, true, true}, {true, true, true}, {true, true, true}}))
-        .isEqualTo(6);
+      gridWays(new boolean[][]{{true, true, true}, {true, true, true}, {true, true, true}}))
+      .isEqualTo(6);
   }
 
   @Test
@@ -41,5 +39,16 @@ public class RecursionTest {
             Sets.newHashSet("a", "c"),
             Sets.newHashSet("b", "c"),
             Sets.newHashSet("a", "b", "c"));
+  }
+
+  @Test
+  public void permutationsTest() {
+    Truth.assertThat(permutations("ab")).containsExactly("ab", "ba");
+    Truth.assertThat(permutations("abc")).containsExactly("cab", "acb", "abc", "cba", "bca", "bac");
+  }
+
+  @Test
+  public void parenPairsTest() {
+    Truth.assertThat(parenPairs(3)).containsExactly("((()))", "(()())", "(())()", "()(())", "()()()");
   }
 }
