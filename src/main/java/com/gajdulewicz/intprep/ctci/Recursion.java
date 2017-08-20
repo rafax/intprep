@@ -1,5 +1,6 @@
 package com.gajdulewicz.intprep.ctci;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import java.util.HashSet;
@@ -55,8 +56,25 @@ public class Recursion {
     return row < 0 || row >= grid.length || col < 0 || col >= grid[0].length;
   }
 
+  // 9.4
+  public static <T> List<Set<T>> subsets(List<T> in) {
+    List<Set<T>> res = Lists.newArrayList();
+    for (long i = 0; i < Math.pow(2, in.size()); i++) {
+      final String include = Strings.padStart(Long.toBinaryString(i), in.size(), '0');
+      Set<T> x = new HashSet<>();
+      for (int j = 0; j < include.length(); j++) {
+        if (include.charAt(j) == '1') {
+          x.add(in.get(j));
+        }
+      }
+      res.add(x);
+    }
+    return res;
+  }
+
+
   //9.5
-  static List<String> permutations(String in) {
+  public static List<String> permutations(String in) {
     if (in.length() == 1) {
       return Lists.newArrayList(in);
     }
@@ -79,7 +97,8 @@ public class Recursion {
     return res;
   }
 
-  static List<String> parenPairs(int n) {
+
+  public static List<String> parenPairs(int n) {
     if (n == 1) return Lists.newArrayList("()");
     Set<String> res = new HashSet<>();
     final List<String> strings = parenPairs(n - 1);
@@ -101,11 +120,6 @@ public class Recursion {
       }
     }
     return Lists.newArrayList(res);
-  }
-
-  //9.8
-  static int waysToMakeChange(int cents, Set<Integer> coins) {
-
   }
 
 
