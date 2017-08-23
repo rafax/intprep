@@ -4,7 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NestedBoxes {
   private final List<Box> boxes;
@@ -16,8 +19,36 @@ public class NestedBoxes {
     }
   }
 
+  private static List<Box> findBoxesWithNoAncestors(MutableGraph<Box> graph) {
+    List<Box> result = Lists.newArrayList();
+    for (Box box : graph.nodes()) {
+      if (graph.predecessors(box).isEmpty()) {
+        result.add(box);
+      }
+    }
+    return result;
+  }
+
   public int getBoxCount() {
     return boxes.size();
+  }
+
+  public int maxContainedBoxesGreedy() {
+    final HashMap<Box, Integer> boxesMap = new HashMap<>();
+    this.boxes.forEach(b -> calculateMaxHeightWithBase(b, boxesMap));
+    return boxesMap.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue)).get().getValue();
+  }
+
+  private void calculateMaxHeightWithBase(Box b, HashMap<Box, Integer> boxesMap) {
+    if (boxesMap.containsKey(b)) return;
+    boxesMap.put(b, 1);
+    for (Box box : boxes) {
+      if (box == b || !b.canContain(box)) {
+        continue;
+      }
+      calculateMaxHeightWithBase(box, boxesMap);
+      boxesMap.put(b, Math.max(boxesMap.getOrDefault(b, 1), boxesMap.getOrDefault(box, 0) + 1));
+    }
   }
 
   public int maxContainedBoxes() {
@@ -51,16 +82,6 @@ public class NestedBoxes {
     return chainLength;
   }
 
-  private static List<Box> findBoxesWithNoAncestors(MutableGraph<Box> graph) {
-    List<Box> result = Lists.newArrayList();
-    for (Box box : graph.nodes()) {
-      if (graph.predecessors(box).isEmpty()) {
-        result.add(box);
-      }
-    }
-    return result;
-  }
-
   public static class Box {
     private final int w;
     private final int h;
@@ -77,6 +98,24 @@ public class NestedBoxes {
     @Override
     public String toString() {
       return String.format("Box{w: %s, h: %s}", w, h);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+
+      Box box = (Box) o;
+
+      if (w != box.w) return false;
+      return h == box.h;
+    }
+
+    @Override
+    public int hashCode() {
+      int result = w;
+      result = 31 * result + h;
+      return result;
     }
   }
 }

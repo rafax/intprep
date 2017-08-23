@@ -5,25 +5,17 @@ import com.google.common.collect.MultimapBuilder;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
  * Count the number of unique items in a large (larger than memory) list by sorting sublists,
  * storing them in files and merging sorted arrays. Should run with -Xmx8m
  */
-public class ExternalSort implements Solution {
+public class ExternalSort {
 
-  private static int dedup(Stream<String> reader) {
-    Set<String> seen = Collections.newSetFromMap(new ConcurrentHashMap<>());
-    reader.parallel().forEach(seen::add);
-    return seen.size();
-  }
-
-  private static int fileSort(Stream<String> reader) {
+  static int fileSort(Stream<String> reader) {
     List<File> files = batchSort(reader);
     int cnt = countNonDuplicates(files);
-    System.out.println("EXTSORT unique count: " + cnt);
     return cnt;
   }
 
@@ -36,8 +28,8 @@ public class ExternalSort implements Solution {
     String startLine;
     try {
       txt =
-          new BufferedWriter(
-              new FileWriter(File.createTempFile("output" + UUID.randomUUID(), "txt")));
+        new BufferedWriter(
+          new FileWriter(File.createTempFile("output" + UUID.randomUUID(), "txt")));
       startLine = startMove.readLine();
       if (startLine != null) {
         sortedReaders.put(Integer.parseInt(startLine), startMove);
@@ -69,22 +61,21 @@ public class ExternalSort implements Solution {
       e.printStackTrace();
     } finally {
       sortedReaders.forEach(
-          (k, v) -> {
-            try {
-              v.close();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          });
+        (k, v) -> {
+          try {
+            v.close();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
       files.forEach(File::delete);
     }
-    System.out.println("Processed " + processed);
     return cnt;
   }
 
   private static ListMultimap<Integer, BufferedReader> sortedReaders(List<File> files) {
     ListMultimap<Integer, BufferedReader> nextVal =
-        MultimapBuilder.treeKeys().linkedListValues().build();
+      MultimapBuilder.treeKeys().linkedListValues().build();
     try {
       for (File f : files) {
         BufferedReader r = new BufferedReader(new FileReader(f));
@@ -107,7 +98,6 @@ public class ExternalSort implements Solution {
     int i = 0, chunk = 0;
     while (iter.hasNext()) {
       if (i == limit) {
-        System.out.println("Chunk " + chunk);
         res.add(sortAndWrite(mem, chunk++));
         i = 0;
       }
@@ -116,7 +106,6 @@ public class ExternalSort implements Solution {
     if (i > 0) {
       res.add(sortAndWrite(mem, chunk++));
     }
-    System.out.println(res);
     return res;
   }
 
@@ -136,18 +125,5 @@ public class ExternalSort implements Solution {
       e.printStackTrace();
     }
     return out;
-  }
-
-  @Override
-  public void solve() {
-    BufferedReader reader =
-        new BufferedReader(
-            new InputStreamReader(Main.class.getResourceAsStream("/externalsort/all.txt")));
-    if (System.getenv("INMEM") != null) {
-      int count = dedup(reader.lines());
-      System.out.println(count);
-    } else {
-      fileSort(reader.lines());
-    }
   }
 }
