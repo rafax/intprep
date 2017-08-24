@@ -3,6 +3,7 @@ package com.gajdulewicz.intprep.cf;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
+import static com.gajdulewicz.intprep.cf.Trees.findProfession;
 import static com.gajdulewicz.intprep.cf.Trees.hasPathWithGivenSum;
 import static com.gajdulewicz.intprep.cf.Trees.isTreeSymmetric;
 
@@ -27,6 +28,14 @@ public class TreesTest {
     @Test
     public void isTreeSymmetricTest() {
         Truth.assertThat(isTreeSymmetric(sym)).isTrue();
+    }
+
+    @Test
+    public void findProfessionTest(){
+        Truth.assertThat(findProfession(3,3)).isEqualTo("Doctor");
+        Truth.assertThat(findProfession(3,2)).isEqualTo("Doctor");
+        Truth.assertThat(findProfession(3,4)).isEqualTo("Engineer");
+        Truth.assertThat(findProfession(30,163126329)).isEqualTo("Doctor");
     }
 
 }

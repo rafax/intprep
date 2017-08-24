@@ -1,9 +1,6 @@
 package com.gajdulewicz.intprep.cf;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Trees {
     static class Tree<T> {
@@ -52,6 +49,19 @@ public class Trees {
         inOrder(t.left, order);
         order.add(t.value);
         inOrder(t.right, order);
+    }
+
+    static String findProfession(int level, int pos) {
+        int levelSize = 2 << (level-1);
+        int flips = 0;
+        while (pos - 1 > 0) {
+            if (pos > levelSize / 2) {
+                flips++;
+                pos -= levelSize / 2;
+            }
+            levelSize /= 2;
+        }
+        return (flips % 2) == 0 ? "Engineer" : "Doctor";
     }
 
 
