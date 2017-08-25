@@ -204,6 +204,30 @@ public class HeapsStacksQueues {
         }
     }
 
+    static boolean hasDeadlock(int[][] connections) {
+        for (int i = 0; i < connections.length; i++) {
+            Set<Integer> path = new HashSet<>();
+            path.add(i);
+            final boolean has = hasDeadlock(connections, path, i);
+            if (has) return true;
+        }
+        return false;
+    }
+
+    private static boolean hasDeadlock(int[][] connections, Set<Integer> path, int curr) {
+        for (int i : connections[curr]) {
+            if (path.contains(i)) {
+                return true;
+            }
+            path.add(i);
+            final boolean has = hasDeadlock(connections, path, i);
+            if (has) return true;
+            path.remove(i);
+        }
+        return false;
+    }
+
+
 }
 
 

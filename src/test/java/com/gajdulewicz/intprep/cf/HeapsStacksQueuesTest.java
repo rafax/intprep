@@ -53,5 +53,11 @@ public class HeapsStacksQueuesTest {
                 {'1', '0', '1', '1', '0'}})).isEqualTo(5);
     }
 
+    @Test
+    public void hasDeadlockTest() {
+        Truth.assertThat(hasDeadlock(new int[][]{{1}, {2}, {3, 4}, {4}, {0}})).isTrue();
+        Truth.assertThat(hasDeadlock(new int[][]{{1, 2, 3}, {2, 3}, {3}, {}})).isFalse();
+    }
+
 
 }
