@@ -28,8 +28,8 @@ public class ExternalSort {
     String startLine;
     try {
       txt =
-        new BufferedWriter(
-          new FileWriter(File.createTempFile("output" + UUID.randomUUID(), "txt")));
+          new BufferedWriter(
+              new FileWriter(File.createTempFile("output" + UUID.randomUUID(), "txt")));
       startLine = startMove.readLine();
       if (startLine != null) {
         sortedReaders.put(Integer.parseInt(startLine), startMove);
@@ -61,13 +61,13 @@ public class ExternalSort {
       e.printStackTrace();
     } finally {
       sortedReaders.forEach(
-        (k, v) -> {
-          try {
-            v.close();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
+          (k, v) -> {
+            try {
+              v.close();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          });
       files.forEach(File::delete);
     }
     return cnt;
@@ -75,7 +75,7 @@ public class ExternalSort {
 
   private static ListMultimap<Integer, BufferedReader> sortedReaders(List<File> files) {
     ListMultimap<Integer, BufferedReader> nextVal =
-      MultimapBuilder.treeKeys().linkedListValues().build();
+        MultimapBuilder.treeKeys().linkedListValues().build();
     try {
       for (File f : files) {
         BufferedReader r = new BufferedReader(new FileReader(f));

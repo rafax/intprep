@@ -69,10 +69,6 @@ public class BinaryNode<T extends Comparable<T>> {
 
   @Override
   public String toString() {
-    return "BinaryNode{" +
-            "value=" + value +
-            ", left=" + left +
-            ", right=" + right +
-            '}';
+    return "BinaryNode{" + "value=" + value + ", left=" + left + ", right=" + right + '}';
   }
 }

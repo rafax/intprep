@@ -22,13 +22,14 @@ public class MineRevealTest {
   @Test
   public void revealOneTest() {
     final boolean[][] grid =
-      new boolean[][] {{false, false, false}, {false, true, false}, {false, false, false}};
+        new boolean[][] {{false, false, false}, {false, true, false}, {false, false, false}};
     Truth.assertThat(reveal(grid, 0, 0)).isEqualTo(1);
   }
+
   @Test
   public void revealMineTest() {
     final boolean[][] grid =
-      new boolean[][] {{false, false, false}, {false, true, false}, {false, false, false}};
+        new boolean[][] {{false, false, false}, {false, true, false}, {false, false, false}};
     Truth.assertThat(reveal(grid, 1, 1)).isEqualTo(0);
   }
 }

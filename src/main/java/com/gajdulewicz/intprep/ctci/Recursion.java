@@ -72,7 +72,6 @@ public class Recursion {
     return res;
   }
 
-
   //9.5
   public static List<String> permutations(String in) {
     if (in.length() == 1) {
@@ -97,7 +96,6 @@ public class Recursion {
     return res;
   }
 
-
   public static List<String> parenPairs(int n) {
     if (n == 1) return Lists.newArrayList("()");
     Set<String> res = new HashSet<>();
@@ -121,6 +119,4 @@ public class Recursion {
     }
     return Lists.newArrayList(res);
   }
-
-
 }

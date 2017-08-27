@@ -10,7 +10,7 @@ public class MaxXor {
     System.out.println(maxXor(lower, upper));
   }
 
-   static int maxXor(int lower, int upper) {
+  static int maxXor(int lower, int upper) {
     int max = Integer.MIN_VALUE;
     for (int i = lower; i <= upper; i++) {
       for (int j = lower; j <= upper; j++) {

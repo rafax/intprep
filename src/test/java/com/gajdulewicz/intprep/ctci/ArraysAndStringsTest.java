@@ -5,9 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
-import static com.gajdulewicz.intprep.ctci.ArraysAndStrings.allUnique;
-import static com.gajdulewicz.intprep.ctci.ArraysAndStrings.compress;
-import static com.gajdulewicz.intprep.ctci.ArraysAndStrings.replaceSpaces;
+import static com.gajdulewicz.intprep.ctci.ArraysAndStrings.*;
 
 public class ArraysAndStringsTest {
   @Test
@@ -43,5 +41,4 @@ public class ArraysAndStringsTest {
             new Case<>(() -> "aaa", () -> "a3"))
         .forEach(c -> Truth.assertThat(compress(c.in())).isEqualTo(c.out()));
   }
-
 }

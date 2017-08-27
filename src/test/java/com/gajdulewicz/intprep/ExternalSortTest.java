@@ -12,10 +12,10 @@ public class ExternalSortTest {
   @Test
   public void externalSortTest() {
     BufferedReader reader =
-      new BufferedReader(
-        new InputStreamReader(ExternalSortTest.class.getResourceAsStream("/externalsort/all.txt")));
+        new BufferedReader(
+            new InputStreamReader(
+                ExternalSortTest.class.getResourceAsStream("/externalsort/all.txt")));
     final int unique = fileSort(reader.lines());
     Truth.assertThat(unique).isEqualTo(995106);
   }
-
 }

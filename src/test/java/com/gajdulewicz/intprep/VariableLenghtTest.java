@@ -16,6 +16,6 @@ public class VariableLenghtTest {
   }
 
   public boolean isSingleRune(byte input) {
-    return (input & 1<<7) == 0;
+    return (input & 1 << 7) == 0;
   }
 }

@@ -3,9 +3,7 @@ package com.gajdulewicz.intprep.cf;
 import java.util.Objects;
 import java.util.Stack;
 
-/**
- * Created by gajduler on 8/23/17.
- */
+/** Created by gajduler on 8/23/17. */
 public class LinkedLists {
 
   static class ListNode<T> {
@@ -124,23 +122,20 @@ public class LinkedLists {
         curr = n;
       } else {
         curr.next = n;
-        curr= curr.next;
+        curr = curr.next;
       }
     }
     return res;
   }
-
 
   public static class AddResult {
 
     final int n;
     final int carry;
 
-
     public AddResult(int n, int carry) {
       this.n = n;
       this.carry = carry;
     }
   }
-
 }

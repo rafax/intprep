@@ -15,14 +15,15 @@ public class RecursionTest {
 
   @Test
   public void gridWaysTest() {
-    Truth.assertThat(Recursion.gridWays(new boolean[][]{{true, true}, {true, true}})).isEqualTo(2);
+    Truth.assertThat(Recursion.gridWays(new boolean[][] {{true, true}, {true, true}})).isEqualTo(2);
     Truth.assertThat(
-      Recursion.gridWays(
-        new boolean[][]{{true, true, true}, {false, false, true}, {true, true, true}}))
-      .isEqualTo(1);
+            Recursion.gridWays(
+                new boolean[][] {{true, true, true}, {false, false, true}, {true, true, true}}))
+        .isEqualTo(1);
     Truth.assertThat(
-      Recursion.gridWays(new boolean[][]{{true, true, true}, {true, true, true}, {true, true, true}}))
-      .isEqualTo(6);
+            Recursion.gridWays(
+                new boolean[][] {{true, true, true}, {true, true, true}, {true, true, true}}))
+        .isEqualTo(6);
   }
 
   @Test
@@ -42,11 +43,13 @@ public class RecursionTest {
   @Test
   public void permutationsTest() {
     Truth.assertThat(Recursion.permutations("ab")).containsExactly("ab", "ba");
-    Truth.assertThat(Recursion.permutations("abc")).containsExactly("cab", "acb", "abc", "cba", "bca", "bac");
+    Truth.assertThat(Recursion.permutations("abc"))
+        .containsExactly("cab", "acb", "abc", "cba", "bca", "bac");
   }
 
   @Test
   public void parenPairsTest() {
-    Truth.assertThat(Recursion.parenPairs(3)).containsExactly("((()))", "(()())", "(())()", "()(())", "()()()");
+    Truth.assertThat(Recursion.parenPairs(3))
+        .containsExactly("((()))", "(()())", "(())()", "()(())", "()()()");
   }
 }

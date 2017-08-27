@@ -36,7 +36,12 @@ public class NestedBoxes {
   public int maxContainedBoxesGreedy() {
     final HashMap<Box, Integer> boxesMap = new HashMap<>();
     this.boxes.forEach(b -> calculateMaxHeightWithBase(b, boxesMap));
-    return boxesMap.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue)).get().getValue();
+    return boxesMap
+        .entrySet()
+        .stream()
+        .max(Comparator.comparing(Map.Entry::getValue))
+        .get()
+        .getValue();
   }
 
   private void calculateMaxHeightWithBase(Box b, HashMap<Box, Integer> boxesMap) {

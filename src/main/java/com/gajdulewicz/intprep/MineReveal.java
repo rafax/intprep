@@ -26,12 +26,7 @@ public class MineReveal {
     }
     cell.reveal();
     final List<Cell> neighbours = neighbours(grid, cell.row, cell.col);
-    int nMines =
-        neighbours
-            .stream()
-            .map(c -> c.hasMine ? 1 : 0)
-            .mapToInt(c -> c)
-            .sum();
+    int nMines = neighbours.stream().map(c -> c.hasMine ? 1 : 0).mapToInt(c -> c).sum();
     if (nMines > 0) {
       return 1;
     }
@@ -89,12 +84,16 @@ public class MineReveal {
 
     @Override
     public String toString() {
-      return "Cell{" +
-        "row=" + row +
-        ", col=" + col +
-        ", hasMine=" + hasMine +
-        ", revealed=" + revealed +
-        '}';
+      return "Cell{"
+          + "row="
+          + row
+          + ", col="
+          + col
+          + ", hasMine="
+          + hasMine
+          + ", revealed="
+          + revealed
+          + '}';
     }
   }
 }

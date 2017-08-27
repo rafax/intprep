@@ -1,11 +1,7 @@
 package com.gajdulewicz.intprep.cf;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.common.truth.Truth;
 import org.junit.Test;
-
-import java.util.List;
 
 import static com.gajdulewicz.intprep.cf.HashTables.*;
 

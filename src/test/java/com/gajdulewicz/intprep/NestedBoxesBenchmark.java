@@ -1,6 +1,5 @@
 package com.gajdulewicz.intprep;
 
-
 import com.google.common.collect.Lists;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
@@ -13,18 +12,21 @@ import java.util.Random;
 @State(Scope.Thread)
 public class NestedBoxesBenchmark {
   NestedBoxes nestedBoxes;
+
   @Param({"10", "100", "1000"})
   private int length;
+
   private List<Integer> values;
 
   public static void main(String[] args) throws Exception {
-    Options opt = new OptionsBuilder()
-      .include(NestedBoxesBenchmark.class.getSimpleName())
-      .warmupIterations(10)
-      .measurementIterations(5)
-      .threads(1)
-      .forks(1)
-      .build();
+    Options opt =
+        new OptionsBuilder()
+            .include(NestedBoxesBenchmark.class.getSimpleName())
+            .warmupIterations(10)
+            .measurementIterations(5)
+            .threads(1)
+            .forks(1)
+            .build();
 
     new Runner(opt).run();
   }

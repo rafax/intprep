@@ -9,7 +9,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class NestedBoxesTest {
 
-  List<Integer> sample = Lists.newArrayList(100, 100, 99, 40, 98, 98, 97, 97, 4, 4, 3, 1, 3, 3, 2, 2, 1, 1);
+  List<Integer> sample =
+      Lists.newArrayList(100, 100, 99, 40, 98, 98, 97, 97, 4, 4, 3, 1, 3, 3, 2, 2, 1, 1);
 
   @Test
   public void testConvertsAllDimensions() {
@@ -22,7 +23,7 @@ public class NestedBoxesTest {
   public void testCalculatesChain() {
     final NestedBoxes pb = new NestedBoxes(sample);
     assertThat(pb).isNotNull();
-    assertThat(pb.maxContainedBoxes()).isEqualTo( 7);
+    assertThat(pb.maxContainedBoxes()).isEqualTo(7);
     assertThat(pb.maxContainedBoxesGreedy()).isEqualTo(7);
   }
 
@@ -32,7 +33,6 @@ public class NestedBoxesTest {
     assertThat(pb).isNotNull();
     assertThat(pb.maxContainedBoxes()).isEqualTo(1);
     assertThat(pb.maxContainedBoxesGreedy()).isEqualTo(1);
-
   }
 
   @Test

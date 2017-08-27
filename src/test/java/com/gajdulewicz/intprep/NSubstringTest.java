@@ -13,9 +13,9 @@ public class NSubstringTest {
     Truth.assertThat(longestNSubstring("abcbc", 3)).isEqualTo("abcbc");
   }
 
-    @Test
-    public void longerTest() {
-        Truth.assertThat(longestNSubstring("dabbcccabcd", 2)).isEqualTo("bbccc");
-        Truth.assertThat(longestNSubstring("dabbcccabcd", 3)).isEqualTo("abbcccabc");
-    }
+  @Test
+  public void longerTest() {
+    Truth.assertThat(longestNSubstring("dabbcccabcd", 2)).isEqualTo("bbccc");
+    Truth.assertThat(longestNSubstring("dabbcccabcd", 3)).isEqualTo("abbcccabc");
+  }
 }

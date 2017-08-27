@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class Arrays {
 
-
   static int firstDuplicate(int[] a) {
     Set<Integer> seen = new HashSet<>();
     for (int i = 0; i < a.length; i++) {
@@ -111,7 +110,5 @@ public class Arrays {
       }
     }
     return counts.values().stream().allMatch(e -> e == 1);
-
   }
-
 }
