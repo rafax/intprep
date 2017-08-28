@@ -1,9 +1,6 @@
 package com.gajdulewicz.intprep.cf;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Trees {
   static class Tree<T> {
@@ -69,42 +66,79 @@ public class Trees {
     return (flips % 2) == 0 ? "Engineer" : "Doctor";
   }
 
-  //    static int treeDiameter(int n, int[][] tree) {
-  //        Map<Integer, Set<Integer>> edges = new HashMap<>();
-  //        for (int i = 0; i < n; i++) {
-  //            edges.put(i, new HashSet<>());
-  //        }
-  //        for (int[] ints : tree) {
-  //            edges.get(ints[0]).add(ints[1]);
-  //            edges.get(ints[1]).add(ints[0]);
-  //        }
-  //        Set<Integer> visited = new HashSet<>();
-  //        Queue<Integer> toVisit = new LinkedList<>();
-  //        toVisit.add(0);
-  //        while (!toVisit.isEmpty()) {
-  //            final Integer next = toVisit.iterator().next();
-  //            toVisit.remove(next);
-  //
-  //        }
-  //    }
-  //
-  //    static int dfsLongestPath(int from, Map<Integer, Set<Integer>> edges) {
-  //        Stack<Integer> path = new Stack<>();
-  //        path.add(from);
-  //        Set<Integer> visited = new HashSet<>();
-  //        visited.add(from);
-  //        return dfsLongestPath(path, edges, visited, 1);
-  //
-  //
-  //    }
-  //
-  //    private static int dfsLongestPath(Stack<Integer> path, Map<Integer, Set<Integer>> edges, Set<Integer> visited, int longest) {
-  //        for (Integer n : edges.get(path.peek())) {
-  //            if(visited.contains(n)){
-  //
-  //            }
-  //        }
-  //
-  //    }
+  static int treeDiameter(int n, int[][] tree) {
+    if (tree.length == 0) return 0;
+    Map<Integer, Set<Integer>> edges = new HashMap<>();
+    for (int i = 0; i < n; i++) {
+      edges.put(i, new HashSet<>());
+    }
+    for (int[] ints : tree) {
+      edges.get(ints[0]).add(ints[1]);
+      edges.get(ints[1]).add(ints[0]);
+    }
+    int[] c = dfsLongestPath(0, edges);
+    int[] maxC = dfsLongestPath(c[1], edges);
+    return maxC[0] == Integer.MIN_VALUE ? 0 : maxC[0];
+  }
 
+  static int[] dfsLongestPath(int from, Map<Integer, Set<Integer>> edges) {
+    Stack<Integer> path = new Stack<>();
+    Set<Integer> visited = new HashSet<>();
+    int max = Integer.MIN_VALUE;
+    int last = -1;
+    Stack<Integer> toVisit = new Stack<>();
+    toVisit.add(from);
+    while (!toVisit.isEmpty()) {
+      final Integer c = toVisit.pop();
+      if (!visited.contains(c)) {
+        for (Integer integer : edges.get(c)) {
+          if (!visited.contains(integer)) {
+            toVisit.add(integer);
+          }
+        }
+        while (!path.isEmpty() && !edges.get(c).contains(path.peek())) {
+          path.pop();
+        }
+        path.push(c);
+        visited.add(c);
+        if (!path.isEmpty() && path.size() - 1 > max) {
+          max = path.size() - 1;
+          last = path.peek();
+        }
+      }
+    }
+    return new int[] {max, last};
+  }
+
+  static int[] traverseTree(Tree<Integer> t) {
+    if (t == null) return new int[] {};
+    ArrayList<Integer> res = new ArrayList<>();
+    Queue<Tree<Integer>> toVisit = new LinkedList<>();
+    Set<Tree<Integer>> visited = new HashSet<>();
+    toVisit.add(t);
+    while (!toVisit.isEmpty()) {
+      final Tree<Integer> n = toVisit.poll();
+      visited.add(n);
+      res.add(n.value);
+      if (n.left != null && !visited.contains(n.left)) toVisit.add(n.left);
+      if (n.right != null && !visited.contains(n.right)) toVisit.add(n.right);
+    }
+    return res.stream().mapToInt(c -> c).toArray();
+  }
+
+  static int[] largestValuesInTreeRows(Tree<Integer> t) {
+    List<List<Integer>> levels = new ArrayList<>();
+    levelOrder(t, 0, levels);
+    return levels.stream().mapToInt(x->x.stream().mapToInt(e->e).max().getAsInt()).toArray();
+  }
+
+  static void levelOrder(Tree<Integer> t, int level, List<List<Integer>> levels) {
+    if(t==null)return;
+    if (level >= levels.size()) {
+      levels.add(new ArrayList<>());
+    }
+    levels.get(level).add(t.value);
+    levelOrder(t.left, level+1, levels);
+    levelOrder(t.right,level+1,levels);
+  }
 }
