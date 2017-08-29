@@ -65,6 +65,49 @@ public class TreesTest {
 
   @Test
   public void largestValuesInTreeRowsTest() {
-    Truth.assertThat(largestValuesInTreeRows(standard)).asList().containsExactly(1,4,5).inOrder();
+    Truth.assertThat(largestValuesInTreeRows(standard)).asList().containsExactly(1, 4, 5).inOrder();
+  }
+
+  @Test
+  public void climbingStaircaseTest() {
+    final int[][] actual = climbingStaircase(4, 2);
+    final int[][] expected = new int[][] {{1, 1, 1, 1}, {1, 1, 2}, {1, 2, 1}, {2, 1, 1}, {2, 2}};
+    for (int i = 0; i < actual.length; i++) {
+      Truth.assertThat(actual[i]).isEqualTo(expected[i]);
+    }
+  }
+
+  @Test
+  public void nQueensTest() {
+    Truth.assertThat(nQueens(4)).isEqualTo(new int[][] {{2, 4, 1, 3}, {3, 1, 4, 2}});
+  }
+
+  @Test
+  public void findLongestSubarrayBySumTest() {
+    Truth.assertThat(findLongestSubarrayBySum(12, new int[] {1, 2, 3, 7, 5}))
+        .isEqualTo(new int[] {2, 4});
+    Truth.assertThat(findLongestSubarrayBySum(15, new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}))
+        .isEqualTo(new int[] {1, 5});
+    Truth.assertThat(findLongestSubarrayBySum(3, new int[] {2})).isEqualTo(new int[] {-1});
+  }
+
+  @Test
+  public void productExceptSelfTest() {
+    Truth.assertThat(
+            productExceptSelf(
+                new int[] {
+                  28, 27, 11, 17, 19, 49, 19, 46, 41, 21, 1, 49, 18, 26, 16, 24, 16, 36, 19, 49, 31,
+                  39, 11, 21, 29, 37, 34, 34, 6, 16, 26, 31, 6, 48, 38, 36, 26, 36, 38, 18
+                },
+                5040))
+        .isEqualTo(0);
+  }
+
+  @Test
+  public void minSubstringWithAllCharsTest() {
+    Truth.assertThat(minSubstringWithAllChars("adobecodebanc", "abc")).isEqualTo("banc");
+    Truth.assertThat(minSubstringWithAllChars("zqyvbfeiee", "ze")).isEqualTo("zqyvbfe");
+    Truth.assertThat(minSubstringWithAllChars("ywcjorwmhwjfowgkpjxkdmjlrljhgtejidsiiqpnmsspzfyeoj", "wmlrjdsipzfoe")).isEqualTo("fowgkpjxkdmjlrljhgtejidsiiqpnmsspz");
+
   }
 }
