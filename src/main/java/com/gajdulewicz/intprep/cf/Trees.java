@@ -280,7 +280,6 @@ public class Trees {
               kv -> seen.containsKey(kv.getKey()) && seen.get(kv.getKey()) >= kv.getValue())) {
         if (min.length() == 0 || right - left + 1 < min.length()) {
           min = s.substring(left, right + 1);
-          System.out.println(min);
         }
         final char v = s.charAt(left);
         int ccnt = seen.get(v);
@@ -289,7 +288,6 @@ public class Trees {
         } else {
           seen.put(v, ccnt - 1);
         }
-        System.out.println(s.substring(left, right + 1));
         left++;
       } else {
         right++;
@@ -301,5 +299,120 @@ public class Trees {
       }
     }
     return min;
+  }
+
+  static int kthLargestInBST(Tree<Integer> t, int k) {
+    return countingDfs(t, new int[] {k}).get();
+  }
+
+  private static Optional<Integer> countingDfs(Tree<Integer> t, int[] k) {
+    if (t.left != null) {
+      final Optional<Integer> f = countingDfs(t.left, k);
+      if (f.isPresent()) return f;
+    }
+    k[0]--;
+    if (k[0] == 0) return Optional.of(t.value);
+    if (t.right != null) {
+      final Optional<Integer> f = countingDfs(t.right, k);
+      if (f.isPresent()) return f;
+    }
+    return Optional.empty();
+  }
+
+  static boolean isSubtree(Tree<Integer> t1, Tree<Integer> t2) {
+    if (t1 == null) return t2 == null;
+    if (t2 == null) return true;
+    if (Objects.equals(t1.value, t2.value) && areEqual(t1, t2)) return true;
+    if (t1.left != null) {
+      if (isSubtree(t1.left, t2)) return true;
+    }
+    if (t1.right != null) {
+      if (isSubtree(t1.right, t2)) return true;
+    }
+    return false;
+  }
+
+  private static boolean areEqual(Tree<Integer> t1, Tree<Integer> t2) {
+    if (!Objects.equals(t1.value, t2.value)) return false;
+    if (t1.left == null && t2.left != null) return false;
+    if (t1.left != null && t2.left == null) return false;
+    if (t1.right == null && t2.right != null) return false;
+    if (t1.right != null && t2.right == null) return false;
+    if (t1.left != null && t2.left != null && !areEqual(t1.left, t2.left)) return false;
+    if (t1.right != null && t2.right != null && !areEqual(t1.right, t2.right)) return false;
+    return true;
+  }
+
+  static Tree<Integer> restoreBinaryTree(int[] inorder, int[] preorder) {
+    if (inorder.length == 0) return null;
+    Tree<Integer> root = new Tree<>(preorder[0]);
+    if (inorder.length == 1) return root;
+    int inroot = -1;
+    for (int i = 0; i < inorder.length; i++) {
+      if (inorder[i] == root.value) {
+        inroot = i;
+        break;
+      }
+    }
+    root.left =
+        restoreBinaryTree(
+            Arrays.copyOfRange(inorder, 0, inroot), Arrays.copyOfRange(preorder, 1, inroot + 1));
+
+    if (inroot < inorder.length - 1) {
+      root.right =
+          restoreBinaryTree(
+              Arrays.copyOfRange(inorder, inroot + 1, inorder.length),
+              Arrays.copyOfRange(preorder, inroot + 1, inorder.length));
+    }
+    return root;
+  }
+
+  static String[] findSubstrings(String[] words, String[] parts) {
+    Map<Character, List<String>> partsByFirst = new HashMap<>();
+    for (String part : parts) {
+      final char c = part.charAt(0);
+      final List<String> p = partsByFirst.getOrDefault(c, new ArrayList<>());
+      p.add(part);
+      partsByFirst.put(c, p);
+    }
+    for (Character key : partsByFirst.keySet()) {
+      partsByFirst.get(key).sort((a, b) -> -Integer.compare(a.length(), b.length()));
+    }
+    List<String> res = new ArrayList<>();
+    for (String word : words) {
+      int maxLength = -1;
+      String cand = word;
+      for (int i = 0; i < word.length(); i++) {
+        final List<String> curr = new ArrayList<>();
+        for (String s : partsByFirst.getOrDefault(word.charAt(i), new ArrayList<>())) {
+          if (s.length() > maxLength) {
+            curr.add(s);
+          } else {
+            break;
+          }
+
+        }
+        for (String part : curr) {
+          boolean match = true;
+          if (i + part.length() > word.length()
+              || word.substring(i, i + part.length()).hashCode() != part.hashCode()) {
+            continue;
+          }
+          for (int j = 0; j < part.length(); j++) {
+            if (i + j >= word.length() || word.charAt(i + j) != part.charAt(j)) {
+              match = false;
+              break;
+            }
+          }
+          if (match && part.length() > maxLength) {
+            maxLength = part.length();
+            cand = word.replaceFirst(part, "[" + part + "]");
+            break;
+          }
+        }
+      }
+      res.add(cand);
+    }
+    return res.toArray(words);
   }
 }

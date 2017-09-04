@@ -1,11 +1,17 @@
 package com.gajdulewicz.intprep.cf;
 
 import com.google.common.truth.Truth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.junit.Test;
 
 import static com.gajdulewicz.intprep.cf.Trees.*;
 
 public class TreesTest {
+
+  static Tree<Integer> parse(String in) {
+    return new Gson().fromJson(in, new TypeToken<Trees.Tree<Integer>>() {}.getType());
+  }
 
   private final Trees.Tree<Integer> sym;
   private final Trees.Tree<Integer> standard;
@@ -107,7 +113,90 @@ public class TreesTest {
   public void minSubstringWithAllCharsTest() {
     Truth.assertThat(minSubstringWithAllChars("adobecodebanc", "abc")).isEqualTo("banc");
     Truth.assertThat(minSubstringWithAllChars("zqyvbfeiee", "ze")).isEqualTo("zqyvbfe");
-    Truth.assertThat(minSubstringWithAllChars("ywcjorwmhwjfowgkpjxkdmjlrljhgtejidsiiqpnmsspzfyeoj", "wmlrjdsipzfoe")).isEqualTo("fowgkpjxkdmjlrljhgtejidsiiqpnmsspz");
+    Truth.assertThat(
+            minSubstringWithAllChars(
+                "ywcjorwmhwjfowgkpjxkdmjlrljhgtejidsiiqpnmsspzfyeoj", "wmlrjdsipzfoe"))
+        .isEqualTo("fowgkpjxkdmjlrljhgtejidsiiqpnmsspz");
+  }
 
+  @Test
+  public void kthLargestInBSTTest() {
+    Truth.assertThat(
+            kthLargestInBST(
+                parse(
+                    "{\"value\":3,\"left\":{\"value\":1,\"left\":null,\"right\":null},\"right\":{\"value\":5,\"left\":{\"value\":4,\"left\":null,\"right\":null},\"right\":{\"value\":6,\"left\":null,\"right\":null}}}"),
+                2))
+        .isEqualTo(3);
+    Truth.assertThat(
+            kthLargestInBST(
+                parse(
+                    "{\"value\":1,\"left\":{\"value\":-1,\"left\":{\"value\":-2,\"left\":null,\"right\":null},\"right\":{\"value\":0,\"left\":null,\"right\":null}},\"right\":null}"),
+                1))
+        .isEqualTo(-2);
+  }
+
+  @Test
+  public void isSubtreeTest() {
+    Truth.assertThat(
+            isSubtree(
+                parse(
+                    "{\"value\":5,\"left\":{\"value\":10,\"left\":{\"value\":4,\"left\":{\"value\":1,\"left\":null,\"right\":null},\"right\":{\"value\":2,\"left\":null,\"right\":null}},\"right\":{\"value\":6,\"left\":null,\"right\":{\"value\":-1,\"left\":null,\"right\":null}}},\"right\":{\"value\":7,\"left\":null,\"right\":null}}"),
+                parse(
+                    "{\"value\":10,\"left\":{\"value\":4,\"left\":{\"value\":1,\"left\":null,\"right\":null},\"right\":{\"value\":2,\"left\":null,\"right\":null}},\"right\":{\"value\":6,\"left\":null,\"right\":{\"value\":-1,\"left\":null,\"right\":null}}}\n")))
+        .isTrue();
+    Truth.assertThat(
+            isSubtree(
+                parse(
+                    "{\"value\":1,\"left\":{\"value\":-1,\"left\":{\"value\":-2,\"left\":null,\"right\":null},\"right\":{\"value\":0,\"left\":null,\"right\":null}},\"right\":null}"),
+                parse(
+                    "{\"value\":10,\"left\":{\"value\":4,\"left\":{\"value\":1,\"left\":null,\"right\":null},\"right\":{\"value\":2,\"left\":null,\"right\":null}},\"right\":{\"value\":6,\"left\":null,\"right\":{\"value\":-1,\"left\":null,\"right\":null}}}\n")))
+        .isFalse();
+  }
+
+  @Test
+  public void restoreBinaryTreeTest() {
+    Truth.assertThat(
+            restoreBinaryTree(new int[] {4, 2, 1, 5, 3, 6}, new int[] {1, 2, 4, 3, 5, 6}).value)
+        .isEqualTo(1);
+  }
+
+  @Test
+  public void findSubstringsTest() {
+    Truth.assertThat(
+            findSubstrings(
+                new String[] {"Apple", "Melon", "Orange", "Watermelon"},
+                new String[] {"a", "mel", "lon", "el", "An"}))
+        .asList()
+        .containsExactly("Apple", "Me[lon]", "Or[a]nge", "Water[mel]on");
+    Truth.assertThat(
+            findSubstrings(
+                new String[] {
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaac"
+                },
+                new String[] {
+                  "aaaaa", "bbbbb", "a", "aa", "aaaa", "AAAAA", "aaa", "aba", "aaaab", "c", "bbbb",
+                  "d", "g", "ccccc", "B", "C", "P", "D"
+                }))
+        .asList()
+        .containsExactly(
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaab",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaab",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaab",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaab",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaab",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaa",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaa",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaaa",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaaa",
+            "[aaaaa]aaaaaaaaaaaaaaaaaaaaaaaac");
   }
 }
