@@ -1,9 +1,6 @@
 package com.gajdulewicz.intprep.cf;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Arrays {
 
@@ -110,5 +107,29 @@ public class Arrays {
       }
     }
     return counts.values().stream().allMatch(e -> e == 1);
+  }
+
+  static boolean isCryptSolution(String[] crypt, char[][] solution) {
+    Optional<Long> a = translate(crypt[0], solution);
+    Optional<Long> b = translate(crypt[1], solution);
+    Optional<Long> z = translate(crypt[2], solution);
+    if (a.isPresent() && b.isPresent() && z.isPresent()) {
+      return a.get() + b.get() == z.get();
+    }
+    return false;
+  }
+
+  static Optional<Long> translate(String in, char[][] solution) {
+    char[] res = new char[in.length()];
+    for (int i = 0; i < in.length(); i++) {
+      for (int j = 0; j < solution.length; j++) {
+        if (solution[j][0] == in.charAt(i)) {
+          res[i] = solution[j][1];
+          break;
+        }
+      }
+    }
+    if (res[0] == '0' && res.length > 1) return Optional.empty();
+    return Optional.of(Long.parseLong(new String(res)));
   }
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.gajdulewicz.intprep.cf.Arrays.*;
 
 public class ArraysTest {
+
   @Test
   public void sudoku2Test() {
     Truth.assertThat(
@@ -73,5 +74,14 @@ public class ArraysTest {
     int[][] a = new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
     transpose(a);
     Truth.assertThat(a).isEqualTo(new int[][] {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}});
+  }
+
+  @Test
+  public void isCryptSolutionTest() {
+    Truth.assertThat(
+            isCryptSolution(
+                new String[] {"TEN", "TWO", "ONE"},
+                new char[][] {{'O', '1'}, {'T', '0'}, {'W', '9'}, {'E', '5'}, {'N', '4'}}))
+        .isFalse();
   }
 }
