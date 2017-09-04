@@ -368,51 +368,45 @@ public class Trees {
   }
 
   static String[] findSubstrings(String[] words, String[] parts) {
-    Map<Character, List<String>> partsByFirst = new HashMap<>();
+    Map<Long, List<String>> pbh = new HashMap<>();
     for (String part : parts) {
-      final char c = part.charAt(0);
-      final List<String> p = partsByFirst.getOrDefault(c, new ArrayList<>());
+      final long h = hash(part);
+      final List<String> p = pbh.getOrDefault(h, new ArrayList<>());
       p.add(part);
-      partsByFirst.put(c, p);
-    }
-    for (Character key : partsByFirst.keySet()) {
-      partsByFirst.get(key).sort((a, b) -> -Integer.compare(a.length(), b.length()));
+      pbh.put(h, p);
     }
     List<String> res = new ArrayList<>();
     for (String word : words) {
-      int maxLength = -1;
-      String cand = word;
-      for (int i = 0; i < word.length(); i++) {
-        final List<String> curr = new ArrayList<>();
-        for (String s : partsByFirst.getOrDefault(word.charAt(i), new ArrayList<>())) {
-          if (s.length() > maxLength) {
-            curr.add(s);
-          } else {
-            break;
-          }
-
-        }
-        for (String part : curr) {
-          boolean match = true;
-          if (i + part.length() > word.length()
-              || word.substring(i, i + part.length()).hashCode() != part.hashCode()) {
-            continue;
-          }
-          for (int j = 0; j < part.length(); j++) {
-            if (i + j >= word.length() || word.charAt(i + j) != part.charAt(j)) {
-              match = false;
-              break;
-            }
-          }
-          if (match && part.length() > maxLength) {
-            maxLength = part.length();
-            cand = word.replaceFirst(part, "[" + part + "]");
-            break;
-          }
-        }
-      }
-      res.add(cand);
+      res.add(findReplacement(pbh, word));
     }
     return res.toArray(words);
+  }
+
+  private static String findReplacement(Map<Long, List<String>> pbh, String word) {
+    for (int sl = 5; sl >= 1; sl--) {
+      for (int i = 0; i < word.length(); i++) {
+        if (i + sl > word.length()) break;
+        final String sub = word.substring(i, i + sl);
+        final List<String> parts = pbh.get(hash(sub));
+        if (parts == null) continue;
+        for (String part : parts) {
+          if (part != null && Objects.equals(part, sub))
+            return word.replaceFirst(part, "[" + part + "]");
+        }
+      }
+    }
+    return word;
+  }
+
+  static long hash(String s) {
+    long h = 0;
+    if (s.length() > 0) {
+      char val[] = s.toCharArray();
+      h = 5381;
+      for (int i = 0; i < val.length; i++) {
+        h = 33 * h + val[i];
+      }
+    }
+    return h;
   }
 }
