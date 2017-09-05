@@ -1,7 +1,6 @@
 package com.gajdulewicz.intprep.cf;
 
 import java.util.Objects;
-import java.util.Stack;
 
 /** Created by gajduler on 8/23/17. */
 public class LinkedLists {
@@ -38,20 +37,13 @@ public class LinkedLists {
     if (l == null) {
       return true;
     }
-    Stack<Integer> s = new Stack<>();
-    ListNode<Integer> c = l;
-    while (c != null) {
-      s.add(c.value);
-      c = c.next;
+    ListNode<Integer> r = reverse(l);
+    while (r != null && l != null) {
+      if (!Objects.equals(r.value, l.value)) return false;
+      r = r.next;
+      l = l.next;
     }
-    c = l;
-    while (c != null) {
-      if (!Objects.equals(c.value, s.pop())) {
-        return false;
-      }
-      c = c.next;
-    }
-    return true;
+    return Objects.equals(r.value, l.value);
   }
 
   static ListNode<Integer> addTwoHugeNumbers(ListNode<Integer> a, ListNode<Integer> b) {
