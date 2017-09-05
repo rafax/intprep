@@ -43,7 +43,7 @@ public class LinkedLists {
       r = r.next;
       l = l.next;
     }
-    return Objects.equals(r.value, l.value);
+    return Objects.equals(r, l);
   }
 
   static ListNode<Integer> addTwoHugeNumbers(ListNode<Integer> a, ListNode<Integer> b) {
