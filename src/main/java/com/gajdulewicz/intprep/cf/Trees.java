@@ -409,4 +409,23 @@ public class Trees {
     }
     return h;
   }
+
+  static long digitTreeSum(Tree<Integer> t) {
+    return digitTreeSum(t, new ArrayList<>());
+  }
+
+  private static long digitTreeSum(Tree<Integer> t, List<String> curr) {
+    if (t == null) return 0;
+    if (t.left == null && t.right == null) {
+      return Long.parseLong(String.join("", curr) + t.value, 10);
+    }
+    return digitTreeSum(t.left, copyOf(curr, t.value))
+        + digitTreeSum(t.right, copyOf(curr, t.value));
+  }
+
+  public static ArrayList<String> copyOf(List<String> s, Integer n) {
+    final ArrayList<String> nu = new ArrayList<>(s);
+    nu.add(Integer.toString(n));
+    return nu;
+  }
 }
