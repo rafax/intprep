@@ -178,27 +178,47 @@ public class TreesTest {
     Truth.assertThat(
             digitTreeSum(
                 parse(
-                    "{\n" +
-                            "    \"value\": 0,\n" +
-                            "    \"left\": {\n" +
-                            "        \"value\": 9,\n" +
-                            "        \"left\": null,\n" +
-                            "        \"right\": null\n" +
-                            "    },\n" +
-                            "    \"right\": {\n" +
-                            "        \"value\": 9,\n" +
-                            "        \"left\": {\n" +
-                            "            \"value\": 1,\n" +
-                            "            \"left\": null,\n" +
-                            "            \"right\": null\n" +
-                            "        },\n" +
-                            "        \"right\": {\n" +
-                            "            \"value\": 3,\n" +
-                            "            \"left\": null,\n" +
-                            "            \"right\": null\n" +
-                            "        }\n" +
-                            "    }\n" +
-                            "}")))
+                    "{\n"
+                        + "    \"value\": 0,\n"
+                        + "    \"left\": {\n"
+                        + "        \"value\": 9,\n"
+                        + "        \"left\": null,\n"
+                        + "        \"right\": null\n"
+                        + "    },\n"
+                        + "    \"right\": {\n"
+                        + "        \"value\": 9,\n"
+                        + "        \"left\": {\n"
+                        + "            \"value\": 1,\n"
+                        + "            \"left\": null,\n"
+                        + "            \"right\": null\n"
+                        + "        },\n"
+                        + "        \"right\": {\n"
+                        + "            \"value\": 3,\n"
+                        + "            \"left\": null,\n"
+                        + "            \"right\": null\n"
+                        + "        }\n"
+                        + "    }\n"
+                        + "}")))
         .isEqualTo(193);
+  }
+
+  @Test
+  public void longestPathTest() {
+
+    Truth.assertThat(longestPath("user\r\tpictures\r\tdocuments\r\t\tnotes.txt")).isEqualTo(24);
+    Truth.assertThat(
+            longestPath(
+                "user\r\tpictures\r\t\tphoto.png\r\t\tcamera\r\tdocuments\r\t\tlectures\r\t\t\tnotes.txt"))
+        .isEqualTo(33);
+    Truth.assertThat(
+            longestPath(
+                "rzzmf\r\taaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt\rv\r\tix\r\t\tiklav\r\t\t\ttqse\r\t\t\t\ttppzf\r\t\t\t\t\tzav\r\t\t\t\t\t\tkktei\r\t\t\t\t\t\t\thhmav\r\t\t\t\t\t\t\t\tbzvwf.txt"))
+        .isEqualTo(47);
+  }
+
+  @Test
+  public void graphDistancesTest() {
+    Truth.assertThat(graphDistances(new int[][] {{-1, 3, 2}, {2, -1, 0}, {-1, 0, -1}}, 0))
+        .isEqualTo(new int[] {0, 2, 2});
   }
 }

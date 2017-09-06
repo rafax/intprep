@@ -428,4 +428,70 @@ public class Trees {
     nu.add(Integer.toString(n));
     return nu;
   }
+
+  static int longestPath(String fileSystem) {
+    final String[] elems = fileSystem.split("\\R");
+    int max = 0;
+    Stack<String> nested = new Stack<>();
+    for (String elem : elems) {
+
+      int i = count(elem);
+      String trimmed = elem.replace("\t", "");
+      while (!nested.isEmpty() && i <= nested.size() - 1) {
+        nested.pop();
+      }
+      if (elem.contains(".")) {
+        final String path = (nested.isEmpty() ? "" : (String.join("/", nested) + "/")) + trimmed;
+        int c = path.length();
+        if (c > max) {
+          max = c;
+        }
+      } else {
+        nested.add(trimmed);
+      }
+    }
+
+    return max;
+  }
+
+  private static int count(String elem) {
+    for (int i = 0; i < elem.length(); i++) {
+      if (!Objects.equals(Character.toString(elem.charAt(i)), "\t")) return i;
+    }
+    return elem.length();
+  }
+
+  static int[] graphDistances(int[][] g, int s) {
+    int[] dist = new int[g.length];
+    List<Integer> toVisit = new ArrayList<>();
+    for (int i = 0; i < g.length; i++) {
+      toVisit.add(i);
+      dist[i] = Integer.MAX_VALUE;
+    }
+    dist[s] = 0;
+    while (!toVisit.isEmpty()) {
+      int u = minDist(toVisit, dist);
+      toVisit.remove(Integer.valueOf(u));
+      for (int v = 0; v < g[u].length; v++) {
+        if (g[u][v] == -1) continue;
+        int alt = dist[u] + g[u][v];
+        if (alt < dist[v]) {
+          dist[v] = alt;
+        }
+      }
+    }
+    return dist;
+  }
+
+  private static int minDist(List<Integer> toVisit, int[] dist) {
+    int min = Integer.MAX_VALUE;
+    int res = -1;
+    for (Integer i : toVisit) {
+      if (dist[i] < min) {
+        min = dist[i];
+        res = i;
+      }
+    }
+    return res;
+  }
 }
