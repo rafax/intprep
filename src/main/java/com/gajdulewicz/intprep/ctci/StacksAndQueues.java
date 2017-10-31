@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class StacksAndQueues {
 
-  //3.4
+  // 3.4
   public static Stack<Integer> hanoi(int n) {
     Stack<Integer> s1 = new Stack<>();
     Stack<Integer> s2 = new Stack<>();
@@ -26,7 +26,7 @@ public class StacksAndQueues {
     moveStacks(n - 1, scratch, from, to);
   }
 
-  //3.6
+  // 3.6
   public static Stack<Integer> sortDescending(Stack<Integer> in) {
     if (in == null || in.isEmpty()) {
       return null;

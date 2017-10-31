@@ -79,7 +79,10 @@ public class DPTest {
   public void kpalindromeTest() {
     Truth.assertThat(kpalindrome("abrarbra", 1)).isTrue();
     Truth.assertThat(kpalindrome("adbcdbacdb", 2)).isFalse();
-    Truth.assertThat(kpalindrome("wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxpklorellnmpapqfwkhopkmco", 5)).isFalse();
-
+    Truth.assertThat(
+            kpalindrome(
+                "wlrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxpklorellnmpapqfwkhopkmco",
+                5))
+        .isFalse();
   }
 }

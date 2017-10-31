@@ -21,6 +21,5 @@ public class BitsTest {
   public void bitsToFloatTest() {
     Truth.assertThat(bitsToFloat(65539)).isEqualTo(1.3);
     Truth.assertThat(bitsToFloat(1073741824)).isEqualTo(16384.);
-
   }
 }

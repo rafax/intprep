@@ -7,7 +7,7 @@ import com.google.common.graph.Graph;
 import java.util.*;
 
 public class TreesAndGraphs {
-  //4.1
+  // 4.1
   public static boolean isBalanced(BinaryNode<Integer> root) {
     if (root == null) {
       return true;
@@ -29,7 +29,7 @@ public class TreesAndGraphs {
     final Integer heightR = node.getRight().map(TreesAndGraphs::height).orElse(0);
     return Math.max(heightL, heightR) + 1;
   }
-  //4.2
+  // 4.2
   public static boolean hasPath(Graph<Integer> g, int from, int to) {
     Set<Integer> visited = new HashSet<>();
     Queue<Integer> toVisit = new LinkedList<>();
@@ -48,7 +48,7 @@ public class TreesAndGraphs {
     }
     return false;
   }
-  //4.3
+  // 4.3
   public static BinaryNode<Integer> buildBST(int[] in) {
     return buildMinBst(in, 0, in.length - 1);
   }
@@ -66,7 +66,7 @@ public class TreesAndGraphs {
     return root;
   }
 
-  //4.4
+  // 4.4
   public static List<List<Integer>> levelOrder(BinaryNode<Integer> node) {
     final ArrayList<List<Integer>> levels = Lists.newArrayList();
     levels.add(Lists.newArrayList(node.getValue()));
@@ -88,7 +88,7 @@ public class TreesAndGraphs {
     node.getRight().ifPresent(n -> descend(n, levels, level + 1));
   }
 
-  //4.5
+  // 4.5
   public static boolean isBst(BinaryNode<Integer> node) {
     return isBstHelper(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
   }

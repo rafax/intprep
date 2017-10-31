@@ -52,7 +52,7 @@ public class CTA {
 
   static int countInversions(int[] a) {
     int[] aux = a.clone();
-    return (int)(countInversions(a, 0, a.length - 1, aux) % 1000000007);
+    return (int) (countInversions(a, 0, a.length - 1, aux) % 1000000007);
   }
 
   private static long countInversions(int[] arr, int lo, int hi, int[] aux) {

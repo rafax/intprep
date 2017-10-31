@@ -3,8 +3,6 @@ package com.gajdulewicz.intprep.cf;
 import com.google.common.truth.Truth;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-
 import static com.gajdulewicz.intprep.cf.Counting.*;
 
 public class CountingTest {

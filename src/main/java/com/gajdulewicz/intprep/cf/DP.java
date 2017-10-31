@@ -198,7 +198,6 @@ public class DP {
     return Arrays.stream(maxSeq).max().getAsInt();
   }
 
-
   static boolean kpalindrome(String s, int k) {
     if (k < 0) {
       return false;
@@ -210,30 +209,31 @@ public class DP {
     if (s.charAt(0) == s.charAt(s.length() - 1)) {
       return kpalindrome(s.substring(1, s.length() - 1), k);
     } else {
-      return kpalindrome(s.substring(0, s.length() - 1), k - 1) || kpalindrome(s.substring(1, s.length()), k - 1);
+      return kpalindrome(s.substring(0, s.length() - 1), k - 1)
+          || kpalindrome(s.substring(1, s.length()), k - 1);
     }
   }
 
-//  static boolean kpalindrome(String s, int k) {
-//    return kpalindrome(s, reverse(s), s.length(), s.length()) <= 2 * k;
-//  }
-//
-//  private static int kpalindrome(String s, String r, int si, int ri) {
-//    if (si == 0) return r.length();
-//    if (ri == 0) return s.length();
-//    if (s.charAt(si - 1) == r.charAt(ri - 1)) {
-//      return kpalindrome(s, r, si - 1, ri - 1);
-//    }
-//    return 1 + Math.min(kpalindrome(s, r, si - 1, ri), kpalindrome(s, r, si, ri - 1));
-//  }
-//
-//  private static String reverse(String in) {
-//    char[] copy = in.toCharArray().clone();
-//    for (int i = 0; i < in.length() / 2; i++) {
-//      char tmp = in.charAt(i);
-//      copy[i] = in.charAt(in.length() - 1 - i);
-//      copy[in.length() - 1 - i] = tmp;
-//    }
-//    return new String(copy);
-//  }
+  //  static boolean kpalindrome(String s, int k) {
+  //    return kpalindrome(s, reverse(s), s.length(), s.length()) <= 2 * k;
+  //  }
+  //
+  //  private static int kpalindrome(String s, String r, int si, int ri) {
+  //    if (si == 0) return r.length();
+  //    if (ri == 0) return s.length();
+  //    if (s.charAt(si - 1) == r.charAt(ri - 1)) {
+  //      return kpalindrome(s, r, si - 1, ri - 1);
+  //    }
+  //    return 1 + Math.min(kpalindrome(s, r, si - 1, ri), kpalindrome(s, r, si, ri - 1));
+  //  }
+  //
+  //  private static String reverse(String in) {
+  //    char[] copy = in.toCharArray().clone();
+  //    for (int i = 0; i < in.length() / 2; i++) {
+  //      char tmp = in.charAt(i);
+  //      copy[i] = in.charAt(in.length() - 1 - i);
+  //      copy[in.length() - 1 - i] = tmp;
+  //    }
+  //    return new String(copy);
+  //  }
 }
